@@ -1,0 +1,33 @@
+{
+	"schemaVersion": 1,
+	"id": "nuxon",
+	"version": "${version}",
+	"name": "Nuxon",
+	"description": "Library mod containing useful API's for making mods. Uses Kotlin.",
+	"authors": [
+		"nuxlox"
+	],
+	"contact": {
+	},
+	"license": "MIT",
+	"icon": "assets/nuxon/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			{
+				"value": "nuxlox.nuxon.Nuxon",
+				"adapter": "kotlin"
+			}
+		]
+	},
+	"mixins": [
+		"nuxon.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.18.3",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*",
+		"fabric-language-kotlin": "*"
+	}
+}
