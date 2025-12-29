@@ -1,20 +1,17 @@
 package nuxlox.nuxon.server
 
 import net.minecraft.server.MinecraftServer
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 object ServerUtils {
 
+    private val scheduler = Executors.newSingleThreadScheduledExecutor()
+
     fun scheduleTask(server: MinecraftServer, delaySeconds: Int, task: () -> Unit) {
-        var remaining = delaySeconds * 20L
-
-        fun tick() {
-            if (--remaining <= 0) {
-                task()
-            } else {
-                server.execute(::tick)
-            }
-        }
-
-        server.execute(::tick)
+        scheduler.schedule(
+            { server.execute(task)}, delaySeconds.toLong(), TimeUnit.SECONDS
+        )
     }
+
 }
