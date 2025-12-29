@@ -3,7 +3,19 @@ package nuxlox.nuxon.power
 import net.minecraft.entity.player.PlayerEntity
 import nuxlox.nuxon.server.ServerUtils
 
-open class PalladiumPowerHandler(
+/**
+ * Power handling API for the Palladium mod by ThreeTAG.
+ * This API provides a variety of different functions in order to interact with the Palladium mod!
+ * (These essentially just emulate commands due it not being possible to directly call Palladium's internal API.)
+ *
+ * Here are all the methods provided by `PowerHandler`:
+ * - addPower(player, powerName)
+ * - removePower(player, powerName)
+ * - setPower(player, powerName)
+ * - addPowerForDuration(player, powerName, duration)
+ */
+
+open class PowerHandler(
     private val modId: String
 ) {
 
@@ -24,6 +36,16 @@ open class PalladiumPowerHandler(
         server.commandManager.executeWithPrefix(
             server.commandSource,
             "superpower remove $powerId ${player.gameProfile.name}"
+        )
+    }
+
+    fun setPower(player: PlayerEntity, powerName: String) {
+        val server = player.server ?: return
+        val powerId = "$modId:$powerName"
+
+        server.commandManager.executeWithPrefix(
+            server.commandSource,
+            "superpower set $powerId ${player.gameProfile.name}"
         )
     }
 
