@@ -5,20 +5,16 @@ import net.minecraft.server.MinecraftServer
 object ServerUtils {
 
     fun scheduleTask(server: MinecraftServer, delaySeconds: Int, task: () -> Unit) {
-        val delayTicks = delaySeconds * 20L
-        var remaining = delayTicks
+        var remaining = delaySeconds * 20L
 
-        object : Runnable {
-            override fun run() {
-                remaining--
-                if (remaining <= 0) {
-                    task()
-                } else {
-                    server.execute(this)
-                }
+        fun tick() {
+            if (--remaining <= 0) {
+                task()
+            } else {
+                server.execute(::tick)
             }
         }
 
+        server.execute(::tick)
     }
-
 }
