@@ -1,23 +1,29 @@
 package nuxlox.nuxon.damage
 
-import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Identifier
+import net.minecraft.world.World
 
+/**
+ * [DamageHelper] provides an array of useful utilities for use with damage.
+ *
+ * Current utilities:
+ * - [createDamageSource]
+ */
 object DamageHelper {
 
     /**
-     * Returns a damage source from the name of an existing damage type.
+     * Returns the [DamageSource] associated with the provided [world] and [identifier].
      */
-    fun createDamageSource(entity: LivingEntity, modId: String, damageTypeName: String): DamageSource {
+    fun createDamageSource(world: World, identifier: Identifier): DamageSource {
         val damageType = RegistryKey.of(
-            RegistryKeys.DAMAGE_TYPE, Identifier(modId, damageTypeName)
+            RegistryKeys.DAMAGE_TYPE, identifier
         )
 
         return DamageSource(
-            entity.world.registryManager
+            world.registryManager
                 .get(RegistryKeys.DAMAGE_TYPE)
                 .entryOf(damageType)
         )
